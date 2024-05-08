@@ -46,7 +46,7 @@ def sign_up():
         elif len(email) < 4:
             flash('Email must be greater than 4 characters', category='error')
         elif len(first_name) < 2:
-            flash('firstName must be greater than 2 characters', category='error')
+            flash('First name must be greater than 2 characters', category='error')
         elif password1 != password2:
             flash('Passwords don\'t match', category='error')
         elif len(password1) < 7:
@@ -55,6 +55,11 @@ def sign_up():
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method='scrypt'))
             db.session.add(new_user)
             db.session.commit()
+
+            # Retrieve the newly created user from the database
+            user = User.query.filter_by(email=email).first()
+
+            # Log in the user after successful registration
             login_user(user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('views.home'))
