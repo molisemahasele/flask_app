@@ -2,17 +2,21 @@
 
 {% block title %}Home{% endblock %}
 
-{% block content %}-->
-<!--
+{% block content %}
+
 <div class="mx-auto max-w-lg">
-    <h1 class="text-center text-3xl font-bold mb-4">Notes</h1>
-    <ul class="divide-y divide-gray-200" id="notes">
-        {% for note in user.notes %}
+    <h1 class="text-center text-3xl font-bold mb-4">Events</h1>
+    <ul class="divide-y divide-gray-200" id="events">
+        {% for event in user.events %}
         <li class="py-2 flex items-center justify-between">
-            <span>{{ note.data }}</span>
+            <span>Operator: {{ event.operator }}</span>
+            <span>Capacity: {{ event.capacity }}</span>
+            <span>Timestamp: {{ event.timestamp }}</span>
+            <span>Type: {{ event.event_type }}</span>
+            <span>Reason: {{ event.reason }}</span>
             <div class="flex space-x-2">
-                <a href="/update/{{ note.id }}" class="text-red-600 hover:text-red-800">Update</a>
-                <button type="button" class="text-gray-500 hover:text-gray-700" onClick="deleteNote({{ note.id }})">
+                <a href="/update/{{ event.id }}" class="text-red-600 hover:text-red-800">Update</a>
+                <button type="button" class="text-gray-500 hover:text-gray-700" onClick="deleteNote({{ event.id }})">
                     <span>&times;</span>
                 </button>
             </div>
@@ -20,13 +24,20 @@
         {% endfor %}
     </ul>
     <form method="POST" class="mt-4">
-        <textarea name="note" id="note" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
+        <label>Reason</label>
+        <textarea name="reason" id="reason" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
+        <label>Event Type</label>
+        <textarea name="event_type" id="event_type" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
+        <label>Operator</label>
+        <textarea name="operator" id="operator" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
+        <label>Capacity</label>
+        <textarea name="capacity" id="capacity" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"></textarea>
         <div class="mt-4 flex justify-center">
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Add Note</button>
         </div>
     </form>
-</div>
--->
+</div>-->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -53,82 +64,166 @@
   <body>
     <div class="grid grid-cols-5">
         <div class="col-span-1 text-white bg-blue-500  flex flex-col h-screen overflow-y-auto">
-            <!-- Content for the first column (col-span-1) -->
+     
             <div class="lg:flex lg:justify-start">
                 <img src="/static/logo.png" alt="..." class="h-20 w-25">
                 <p class="lg:text-3xl p-2 hidden lg:inline">DATALY</p>
             </div>
         
-            <div class="flex justify-stretch lg:py-2 ml-4 font-bold items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mb:h-10 mb:h-10">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
-                </svg>                  
-                <a href="/sales" class="ml-2 hidden lg:inline">Event Distribution</a>
+            <div class="flex justify-stretch lg:py-2 ml-4 font-bold items-center hover:text-2xl">
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mb:h-10 mb:h-10">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+                    </svg>
+                </a>                  
+                <a href="/" class="ml-2 hidden lg:inline">Event Distribution</a>
             </div>            
 
             <div class="flex justify-stretch py-6 lg:py-4 ml-4 font-bold items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>                  
-                <a href="/sales" class="ml-2 hidden lg:inline">Capacity Overtime</a>
+                <a href="/capacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </a>                  
+                <a href="/capacity" class="ml-2 hidden lg:inline hover:text-2xl">Capacity Overtime</a>
             </div>
 
             <div class="flex justify-stretch py-1.5 lg:py-4 ml-4 font-bold items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z" />
-                </svg>                  
-                <a href="/sales" class="ml-2 hidden lg:inline">Prediction</a>
+                <a href="/prediction">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z" />
+                    </svg>
+                </a>                  
+                <a href="/prediction" class="ml-2 hidden lg:inline hover:text-2xl">Prediction</a>
             </div>
 
             <div class="flex justify-stretch py-4 ml-4 font-bold items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-                </svg>
-                <a href="/sales" class="ml-2 hidden lg:inline">Statistics</a>
+                <a href="/statistics">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                    </svg>
+                </a>
+                <a href="/statistics" class="ml-2 hidden lg:inline hover:text-2xl">Statistics</a>
             </div>
         
-            <!-- Repeat similar content for other items -->
-        
+     
             <hr>
         
-            <div class="fixed bottom-0 left-0 text-white py-2 px-4 font-bold flex items-center justify-start">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                </svg>
+            <div class="flex justify-stretch py-4 ml-4 font-bold items-center">
+                <a href="/logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                    </svg>
+                </a>
                 <a href="/logout" class="ml-2 hidden lg:inline">Logout</a>
             </div>
             
         
-            <!-- Additional content -->
-        
+          
         </div>
         
         <div class="col-span-4">
-            <!-- Content for the second column (col-span-1) -->
-            <div class="lg:text-3xl flex h-20 border-solid border-4 border-blue-500 rounded-r-lg bg-white-500 text-blue-500 px-4"><p class="py-4 font-bold mt-3">Brought By Robsol</p></div><br>
+            
+            <div class="lg:text-3xl flex h-20 flex justify-between border-solid border-4 border-blue-500 rounded-r-lg bg-white-500 text-blue-500 px-4">
+                <div class="py-4 font-bold mt-3">Brought By Robsol</div>
+                <a href="/logout" class="bg-transparent hover:bg-blue-500 text-blue-500 text hover:text-white mt-4 mb-4 px-6 border border-blue-500 hover:border-transparent rounded-3xl">
+                    <small>Logout</small>
+                </a>
+            </div>
+            <br>
             <div class="bg-white px-4 lg:px-20 rounded overflow-hidden shadow-md relative">
                     <p class="text-gray-500 lg:text-3xl">Event Distribution</p>
                     <div class="text-gray-500">This is a pie chart that shows how events are distributed</div>
                 
             </div>
-            <div id="chart1"></div>
+            <div class="lg:grid lg:grid-cols-3">
 
-            <!-- JavaScript code to render Plotly chart -->
-            <script>
-                // Parse JSON data
-                var graph1 = {{ graph1JSON | safe }};
-                
-                // Extract data and layout from the parsed JSON
-                var data = graph1.data;
-                var layout = graph1.layout;
+    
+                <div class="py-1 lg:col-span-1">
+                    <!-- Include Plotly.js -->
+                <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-                // Render the Plotly chart using newPlot
-                Plotly.newPlot("chart1", data, layout);
-            </script>
+                <!-- Render the pie chart -->
+                <div id="reasonsPieChart"></div>
 
+                <script type="text/javascript">
+                    // Retrieve chart data passed from the view function
+                    var chartData = {{ chart_data|safe }};
+                    
+                    // Extract reasons and counts from the data
+                    var reasons = chartData.reasons;
+                    var counts = chartData.counts;
+
+                    // Define data for the pie chart
+                    var data = [{
+                        values: counts,
+                        labels: reasons,
+                        type: 'pie'
+                    }];
+
+                    // Define layout options for the pie chart
+                    var layout = {
+                        title: 'Event Distribution',
+                        height: 400,
+                        width: 400
+                    };
+
+                    // Render the pie chart using Plotly
+                    Plotly.newPlot('reasonsPieChart', data, layout);
+                </script>
+
+                </div>
+
+                <div class="py-1 lg:col-span-1 hidden lg:inline">
+                    <!-- Render the pie chart -->
+                    <div id="eventTypePieChart"></div>
+
+                    <script type="text/javascript">
+                        // Retrieve chart data passed from the view function
+                        var chartData = {{ event_type|safe }};
+                        
+                        // Extract labels and counts from the data
+                        var labels = chartData.labels;
+                        var counts = chartData.counts;
+
+                        // Define data for the pie chart
+                        var data = [{
+                            values: counts,
+                            labels: labels,
+                            type: 'pie'
+                        }];
+
+                        // Define layout options for the pie chart
+                        var layout = {
+                            title: 'Overall Distribution',
+                            height: 400,
+                            width: 400
+                        };
+
+                        // Render the pie chart using Plotly
+                        Plotly.newPlot('eventTypePieChart', data, layout);
+                    </script>
+                </div>
+                <div class="lg:col-span-1 cursor-pointer hover:bg-blue-500 hover:text-white border-solid border-2 rounded-3xl overflow-hidden shadow-md relative border-blue-500 mt-3 py-10 ml-10 mr-4 text-blue-500 hidden lg:inline">
+                    <div class="px-12">
+                        <div class="flex justify-center text-2xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                            <div>Duration</div>
+                        </div>
+                        <p class="mt-8"><div>Total time spent running:</div> {{ running_time }}</p>
+                        <p><div>Time spent not running: </div>{{ not_running_time }}</p>
+                    </div>
+                    
+                </div>
+            </div>
             
         </div>
+
+        
+        
     </div>
 
-<!--
-{% endblock %}-->
+
+<!--{% endblock %}-->
