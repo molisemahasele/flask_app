@@ -18,7 +18,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import User, Note
+    from .models import User, Event, Note
 
     create_database(app)
 
@@ -37,6 +37,7 @@ def create_database(app):
         with app.app_context():  # Ensures app context is active
             db.create_all()  # This will create all tables defined in your models
         print('Created Database!')
+        
 
 if __name__ == "__main__":
     app = create_app()
