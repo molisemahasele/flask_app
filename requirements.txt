@@ -4,3 +4,6 @@ plotly_express
 flask
 flask-login
 flask-sqlalchemy
+numpy
+scikit-learn
+tensorflow-cpu
