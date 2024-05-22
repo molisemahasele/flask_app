@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <title>Capacity</title>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif; /* Set Nunito as the default font */
+        }
+        h1 {
+            font-family: 'Ubuntu', sans-serif; /* Use Ubuntu for headings */
+        }
+    </style>
+  </head>
+  <body>
+    <div class="grid grid-cols-5">
+        <div class="col-span-1 text-white bg-blue-500  flex flex-col h-screen overflow-y-auto">
+     
+            <div class="lg:flex lg:justify-start">
+                <img src="/static/logo.png" alt="..." class="h-20 w-25">
+                <p class="lg:text-3xl p-2 hidden lg:inline">DATALY</p>
+            </div>
+        
+            <div class="flex justify-stretch lg:py-2 ml-4 font-bold items-center">
+                <a href="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mb:h-10 mb:h-10">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75" />
+                    </svg>
+                </a>                  
+                <a href="/" class="ml-2 hidden lg:inline">Event Distribution</a>
+            </div>            
+
+            <div class="flex justify-stretch py-6 lg:py-4 ml-4 font-bold items-center">
+                <a href="/capacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </a>                  
+                <a href="/capacity" class="ml-2 hidden lg:inline">Capacity Overtime</a>
+            </div>
+
+            <div class="flex justify-stretch py-1.5 lg:py-4 ml-4 font-bold items-center">
+                <a href="/prediction">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V13.5Zm0 2.25h.008v.008H8.25v-.008Zm0 2.25h.008v.008H8.25V18Zm2.498-6.75h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V13.5Zm0 2.25h.007v.008h-.007v-.008Zm0 2.25h.007v.008h-.007V18Zm2.504-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5Zm0 2.25h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V18Zm2.498-6.75h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V13.5ZM8.25 6h7.5v2.25h-7.5V6ZM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 0 0 2.25 2.25h10.5a2.25 2.25 0 0 0 2.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0 0 12 2.25Z" />
+                    </svg>
+                </a>                  
+                <a href="/prediction" class="ml-2 hidden lg:inline">Prediction</a>
+            </div>
+
+            <div class="flex justify-stretch py-4 ml-4 font-bold items-center">
+                <a href="/statistics">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                    </svg>
+                </a>
+                <a href="/statistics" class="ml-2 hidden lg:inline">Statistics</a>
+            </div>
+        
+     
+            <hr>
+        
+            <div class="flex justify-stretch py-4 ml-4 font-bold items-center">
+                <a href="/logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                    </svg>
+                </a>
+                <a href="/logout" class="ml-2 hidden lg:inline">Logout</a>
+            </div>
+            
+            
+          
+        </div>
+        
+        <div class="col-span-4">
+            <div class="lg:text-3xl flex h-20 flex justify-between border-solid border-4 border-blue-500 rounded-r-lg bg-white-500 text-blue-500 px-4">
+                <div class="py-4 font-bold mt-3">Brought By Robsol</div>
+                <a href="/logout" class="bg-transparent hover:bg-blue-500 text-blue-500 text hover:text-white mt-4 mb-4 px-6 border border-blue-500 hover:border-transparent rounded-3xl">
+                    <small>Logout</small>
+                </a>
+            </div>
+            <!--<div class="bg-white px-4 lg:px-20 rounded overflow-hidden shadow-md relative">
+                    <p class="text-gray-500 lg:text-3xl">Event Distribution</p>
+                    <div class="text-gray-500">This is a pie chart that shows how events are distributed</div>
+                
+            </div>-->
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+            <div class="grid grid-cols-4">
+                <div class="col-span-3">
+
+                    <div id="capacityChart" style="width:800px;height:500px;"></div>
+
+                    <script type="text/javascript">
+                        // Retrieve chart data passed from the view function
+                        var chartData = {{ chart_data | safe }};
+
+                        // Parse the serialized data and layout JSON back to objects
+                        var data = JSON.parse(chartData.data);
+                        var layout = JSON.parse(chartData.layout);
+
+                        // Render the bar chart using Plotly
+                        Plotly.newPlot('capacityChart', data, layout);
+                    </script>
+                </div>
+                <div class="col-span-1 mt-6 py-6 mr-3">
+                    <div class="h-20 hover:bg-blue-500 hover:text-white hover:border-blue-800 cursor-pointer bg-white border border-blue-500 border-2 overflow-hidden shadow-lg relative text-blue-500 rounded-3xl">
+                        <div class="font-semibold flex justify-center">Maximum Capacity</div>
+                        <div class="flex font-bold justify-center">{{ chart_data.max_capacity }}</div>
+                    </div>
+                    <br>
+                    <div class="h-20 hover:bg-blue-500 hover:text-white hover:border-blue-800 cursor-pointer bg-white text-blue-500 rounded-3xl border border-blue-500 border-2 shadow-lg">
+                        <div class="font-semibold flex justify-center">Minimum Capacity</div>
+                        <div class="flex font-bold justify-center">{{ chart_data.min_capacity }}</div>
+                    </div>
+                    <br>
+                    <div class="h-20 hover:bg-blue-500 hover:text-white hover:border-blue-800 cursor-pointer bg-white text-blue-500 rounded-3xl border border-blue-500 border-2 shadow-lg">
+                        <div class="font-semibold flex justify-center">Median Capacity</div>
+                        <div class="flex font-bold justify-center">{{ chart_data.median_capacity }}</div>
+                    </div>
+                    <br>
+                    <div class="h-20 hover:bg-blue-500 hover:text-white hover:border-blue-800 cursor-pointer bg-white text-blue-500 rounded-3xl border border-blue-500 border-2 shadow-lg">
+                        <div class="font-semibold flex justify-center">Average Capacity</div>
+                        <div class="flex font-bold justify-center">{{ chart_data.mean_capacity }}</div>
+                    </div>
+                    <br>
+
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+
+        
+        
+    </div>
+
