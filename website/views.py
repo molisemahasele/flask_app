@@ -296,67 +296,50 @@ def prediction():
     fig = go.Figure(data=data, layout=layout)
     graph_json2 = fig.to_json()
 
-    # Query events for the current user
     events = Event.query.filter_by(user_id=current_user.id).all()
 
-    # Prepare the data
-    df = pd.DataFrame([{
-        'event_type': event.event_type,
-        'operator': event.operator
-    } for event in events])
+    if not events:
+        flash('No events data available for prediction', category='error')
+        return render_template('prediction.html', predictions=None)
 
-    if df.empty:
-        return render_template('predict_event_type.html', predictions=None, report=None)
+    # Prepare data for the prediction model
+    data = {
+        'operator': [],
+        'event_type': []
+    }
 
-    # Encode the categorical variables
-    label_encoder_event = LabelEncoder()
-    label_encoder_operator = LabelEncoder()
+    for event in events:
+        data['operator'].append(event.operator)
+        data['event_type'].append(1 if event.event_type == '1' else 0)
 
-    df['event_type'] = label_encoder_event.fit_transform(df['event_type'])
-    df['operator'] = label_encoder_operator.fit_transform(df['operator'])
+    X = np.array(data['operator']).reshape(-1, 1).astype(np.float32)
+    y = np.array(data['event_type']).astype(np.float32)
 
-    X = df[['operator']].values
-    y = df['event_type'].values
-
-    # Split data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    # Standardize the features
-    scaler = StandardScaler()
-    X_train = scaler.fit_transform(X_train)
-    X_test = scaler.transform(X_test)
-
-    # Build the model
-    model = tf.keras.Sequential([
-        tf.keras.layers.Dense(16, activation='relu', input_shape=(X_train.shape[1],)),
-        tf.keras.layers.Dense(8, activation='relu'),
-        tf.keras.layers.Dense(1, activation='sigmoid')
+    # Define and train the model
+    model = Sequential([
+        Dense(10, activation='relu', input_shape=(1,)),
+        Dense(10, activation='relu'),
+        Dense(1, activation='sigmoid')
     ])
 
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-    # Train the model
-    model.fit(X_train, y_train, epochs=10, batch_size=16, validation_split=0.2)
+    model.fit(X, y, epochs=10, batch_size=1, verbose=0)
 
     # Make predictions
-    y_pred_prob = model.predict(X_test).flatten()
-    y_pred = (y_pred_prob > 0.5).astype(int)
+    operators = np.array([1, 2, 3]).reshape(-1, 1).astype(np.float32)
+    predictionst = model.predict(operators)
+    predictionst = ['running' if p >= 0.5 else 'not_running' for p in predictionst]
 
-    # Classification report
-    target_names = label_encoder_event.inverse_transform([0, 1])
-    report = classification_report(y_test, y_pred, target_names=target_names, zero_division=0)
+    operator_predictions = {str(operators[i][0]): predictionst[i] for i in range(len(operators))}
 
-    prediction = pd.DataFrame({
-        'Actual': label_encoder_event.inverse_transform(y_test),
-        'Predicted': label_encoder_event.inverse_transform(y_pred)
-    })
 
     return render_template('prediction.html', 
                            predictions=predictions, 
                            predictions2={'Final Prediction': final_prediction}, 
                            predictions3={'Final Prediction': final_prediction2},
                            graph_json=graph_json,
-                           graph_json2=graph_json2)
+                           graph_json2=graph_json2,
+                           operator_predictions=operator_predictions)
 
 
 @views.route('/statistics')
