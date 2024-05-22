@@ -189,7 +189,18 @@
                     </div>
                 {% endif %}
                 </div>
-                <div class="col-span-1"></div>
+                <div class="col-span-1 mt-3 cursor-pointer text-gray-500 mr-4 border-2 border-blue-500 rounded-3xl hover:text-white hover:bg-blue-500 h-50">
+                    <div class="lg:text-3xl text-2xl flex justify-center"> Operator Prediction </div>
+                    {% if operator_predictions %}
+                    <ul class="mt-4 ml-4">
+                        {% for operator, prediction in operator_predictions.items() %}
+                            <li>Operator {{ operator }}: {{ prediction }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No predictions available.</p>
+                {% endif %}
+                </div>
             </div>
 
     
